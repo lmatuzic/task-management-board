@@ -1,4 +1,4 @@
-import Todos from './features/todos';
+import Todos from './features/tasks';
 
 function App() {
     return (
