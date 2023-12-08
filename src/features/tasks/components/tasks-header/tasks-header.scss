@@ -1,0 +1,30 @@
+.task-management-board__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+
+    @include sm {
+        flex-direction: column;
+
+        input,
+        button {
+            width: 100%;
+        }
+    }
+
+    input {
+        border-radius: 0;
+        border: 1px solid gray;
+        padding: 0.5rem;
+    }
+
+    button {
+        align-self: stretch;
+
+        @include sm {
+            padding: 0.75rem;
+        }
+    }
+}

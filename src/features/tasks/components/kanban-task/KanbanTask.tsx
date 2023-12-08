@@ -6,7 +6,7 @@ type KanbanTaskProps = {
 
 export default function KanbanTask({ task }: KanbanTaskProps) {
     return (
-        <div>
+        <div className='kanban__task'>
             <h3>{task.name}</h3>
         </div>
     );

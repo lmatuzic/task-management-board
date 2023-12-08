@@ -1,0 +1,29 @@
+.kanban__column {
+    border: 2px solid black;
+    background-color: lightgrey;
+    min-height: 10rem;
+
+    h2 {
+        margin: 0;
+        padding: 0.5rem;
+        border-bottom: 2px solid black;
+    }
+
+    &.to-do {
+        header {
+            background-color: lightblue;
+        }
+    }
+
+    &.in-progress {
+        header {
+            background-color: orange;
+        }
+    }
+
+    &.completed {
+        header {
+            background-color: lightcoral;
+        }
+    }
+}

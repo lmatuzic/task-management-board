@@ -14,13 +14,13 @@ export default function TasksHeader({ taskName, handleSetTaskName, handleAddTask
                 type='text'
                 name='todo-name'
                 value={taskName}
-                placeholder='Add todo'
+                placeholder='Type task name'
                 onChange={handleSetTaskName}
             />
 
             <PrimaryButton
                 onClick={handleAddTask}
-                content={<>Add Todo</>}
+                content={<>Add Task</>}
             />
         </header>
     );
