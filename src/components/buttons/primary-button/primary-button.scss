@@ -1,0 +1,12 @@
+.btn {
+    cursor: pointer;
+    border: none;
+    background-color: rgb(33, 59, 125);
+    color: white;
+    padding: 0.5rem 1.5rem;
+
+    &:hover {
+        transition: background-color 0.25s ease-in-out;
+        background-color: red;
+    }
+}
