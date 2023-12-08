@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-@import './base/index.scss';
-@import './components/index.scss';
+@import './base';
+
+// features styles
+@import '../features/todos/styles';
 
 #root {
     max-width: 1280px;

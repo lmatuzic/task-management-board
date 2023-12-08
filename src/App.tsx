@@ -1,10 +1,10 @@
-import TaskManagementBoard from './features/task-management-board/components/TaskManagementBoard';
+import Todos from './features/todos';
 
 function App() {
     return (
         <>
             <h1>Task Management Board</h1>
-            <TaskManagementBoard />
+            <Todos />
         </>
     );
 }
