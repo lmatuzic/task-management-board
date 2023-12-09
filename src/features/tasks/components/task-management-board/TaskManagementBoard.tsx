@@ -1,13 +1,15 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Column, PriorityLevel, sampleTasks, taskBoardColumns } from '../../constants';
 import { Task } from '../../types';
-import TodosHeader from '../tasks-header/TasksHeader';
 import Kanban from '../kanban/Kanban';
+import TodosHeader from '../tasks-header/TasksHeader';
 
 export default function TaskManagementBoard() {
     const [taskName, setTaskName] = useState('');
     const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+
+    const draggedTask = useRef<unknown>(null);
 
     const handleSetTaskName = (e: ChangeEvent<HTMLInputElement>) => {
         setTaskName(e.target.value);
@@ -21,10 +23,23 @@ export default function TaskManagementBoard() {
             dueDate: new Date(),
             assignedTeamMember: 'New User',
             priorityLevel: PriorityLevel.HIGH,
-            sortIndex: tasks[tasks.length + 1]?.sortIndex || tasks.length + 1,
         };
 
+        if (taskPayload.name.length < 1) {
+            return;
+        }
+
         setTasks([...tasks, taskPayload]);
+    };
+
+    const handleOnDragStart = (task: Task) => {
+        draggedTask.current = task.id; // assigning currently dragged task ref to the one we're dragging
+    };
+
+    const handleColumnDrop = (column: Column) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === draggedTask.current ? { ...task, column } : task)),
+        );
     };
 
     return (
@@ -38,6 +53,9 @@ export default function TaskManagementBoard() {
             <Kanban
                 taskBoardColumns={taskBoardColumns}
                 tasks={tasks}
+                handleOnDragStart={handleOnDragStart}
+                draggedTask={draggedTask}
+                handleColumnDrop={handleColumnDrop}
             />
         </div>
     );

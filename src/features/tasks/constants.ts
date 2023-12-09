@@ -23,7 +23,6 @@ export const sampleTasks: Task[] = [
         priorityLevel: PriorityLevel.LOW,
         assignedTeamMember: 'User 1',
         column: Column.TO_DO,
-        sortIndex: 1,
     },
     {
         id: uuidv4(),
@@ -32,7 +31,6 @@ export const sampleTasks: Task[] = [
         priorityLevel: PriorityLevel.LOW,
         assignedTeamMember: 'User 2',
         column: Column.TO_DO,
-        sortIndex: 1,
     },
     {
         id: uuidv4(),
@@ -41,6 +39,5 @@ export const sampleTasks: Task[] = [
         priorityLevel: PriorityLevel.LOW,
         assignedTeamMember: 'User 3',
         column: Column.TO_DO,
-        sortIndex: 1,
     },
 ];

@@ -7,5 +7,5 @@ export type Task = {
     assignedTeamMember: string;
     priorityLevel: PriorityLevel;
     column: Column;
-    sortIndex: number;
+    // sortIndex: number;
 };
