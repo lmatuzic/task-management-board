@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import PrimaryButton from '../../../../components/buttons/primary-button/PrimaryButton';
+import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 
 type TasksHeaderProps = {
     taskName: string;

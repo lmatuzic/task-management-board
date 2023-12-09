@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 
 type PrimaryButtonProps = {
     content: ReactNode;
@@ -8,7 +8,13 @@ type PrimaryButtonProps = {
     id?: string;
 };
 
-export default function PrimaryButton({ onClick, disabled, content, className = '', id }: PrimaryButtonProps) {
+export default function PrimaryButton({
+    onClick,
+    disabled,
+    content,
+    className = '',
+    id,
+}: PropsWithChildren<PrimaryButtonProps>) {
     return (
         <button
             id={id}

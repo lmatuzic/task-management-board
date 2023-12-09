@@ -24,7 +24,7 @@ export default function KanbanColumn({
     return (
         <div
             key={column}
-            className={`kanban__column ${columnStyleClass}`}
+            className={`kanban-column ${columnStyleClass}`}
             onDrop={() => handleColumnDrop(column)}
             onDragOver={(e) => e.preventDefault()}
         >

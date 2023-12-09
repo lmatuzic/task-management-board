@@ -1,0 +1,34 @@
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Adjust the alpha channel for the desired darkness */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog {
+    position: absolute;
+    top: 50%;
+    transform: translatey(-50%);
+    border: none;
+    padding: 2.5rem;
+    min-width: 35rem;
+
+    @include md {
+        padding: 1rem;
+        min-width: auto;
+    }
+
+    &-btn-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+}
