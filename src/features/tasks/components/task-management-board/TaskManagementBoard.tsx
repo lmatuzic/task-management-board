@@ -1,11 +1,11 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import { fetchUsers } from '../../actions/fetchUsers';
 import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
 import { Task, User } from '../../types';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
-import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 
 export default function TaskManagementBoard() {
     const [taskName, setTaskName] = useState('');
@@ -20,8 +20,8 @@ export default function TaskManagementBoard() {
 
     const draggedTask = useRef<unknown>(null);
 
-    const handleSetTaskName = (e: ChangeEvent<HTMLInputElement>) => {
-        setTaskName(e.target.value);
+    const handleSetTaskName = (name: string) => {
+        setTaskName(name);
     };
 
     const handleSetTasks = (tasks: Task[]) => {
@@ -39,10 +39,12 @@ export default function TaskManagementBoard() {
         };
 
         if (taskPayload.name.length < 1) {
+            // addTaskError('You have to give task a name!');
             return;
         }
 
         handleSetTasks([...tasks, taskPayload]);
+        handleSetTaskName('');
     };
 
     const handleOnDragStart = (task: Task) => {
@@ -55,18 +57,17 @@ export default function TaskManagementBoard() {
         );
     };
 
-    const handleSetSelectedTeamMember = (e: ChangeEvent<HTMLSelectElement>) => {
-        const selectedUser = users.find((user) => user.id === Number(e.target.value));
+    const handleSetSelectedTeamMember = (targetMemberId: number) => {
+        const selectedUser = users.find((user) => user.id === targetMemberId);
         setSelectedTeamMember(selectedUser || null);
     };
 
-    const handleSetSelectedPriority = (e: ChangeEvent<HTMLSelectElement>) => {
-        const selectedPriorityValue = e.target.value as PriorityLevel;
-        setSelectedPriority(selectedPriorityValue);
+    const handleSetSelectedPriority = (priorityLevel: PriorityLevel) => {
+        setSelectedPriority(priorityLevel);
     };
 
-    const handleSetSelectedDueDate = (date: Date | null) => {
-        setSelectedDueDate(date || new Date()); // if date is null, use the current date
+    const handleSetSelectedDueDate = (date: Date) => {
+        setSelectedDueDate(date || new Date());
     };
 
     useEffect(() => {
@@ -106,20 +107,22 @@ export default function TaskManagementBoard() {
     return (
         <div className='task-management-board'>
             <header>
-                <div className='add-new-task'>
+                <form className='add-new-task'>
                     <input
                         type='text'
                         name='todo-name'
                         value={taskName}
                         placeholder='Type task name'
-                        onChange={handleSetTaskName}
+                        required
+                        onChange={(e) => handleSetTaskName(e.target.value)}
                     />
 
                     <PrimaryButton
                         onClick={handleAddTask}
                         content={<>Add Task</>}
+                        type='submit'
                     />
-                </div>
+                </form>
 
                 <TaskFilter
                     users={users}

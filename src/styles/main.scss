@@ -9,6 +9,10 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+
+    @include md {
+        padding: 1rem;
+    }
 }
 
 * {
@@ -27,6 +31,10 @@ input {
     border-radius: 0;
     border: 1px solid gray;
     padding: 0.5rem;
+
+    @include md {
+        width: 100%;
+    }
 }
 
 select {
@@ -35,4 +43,8 @@ select {
     border: 1px solid gray;
     padding: 0.5rem;
     background-color: white;
+
+    @include md {
+        width: 100%;
+    }
 }

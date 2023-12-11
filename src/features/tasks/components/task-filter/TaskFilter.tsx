@@ -1,14 +1,13 @@
-import { ChangeEvent } from 'react';
 import { PriorityLevel, priorityLevels } from '../../constants';
 import { User } from '../../types';
 
 type TaskfilterProps = {
     users: User[];
-    handleSetSelectedTeamMember: (e: ChangeEvent<HTMLSelectElement>) => void;
+    handleSetSelectedTeamMember: (targetMemberId: number) => void;
     selectedTeamMember: User | null;
-    handleSetSelectedPriority: (e: ChangeEvent<HTMLSelectElement>) => void;
+    handleSetSelectedPriority: (priorityLevel: PriorityLevel) => void;
     selectedPriority: PriorityLevel;
-    handleSetSelectedDueDate: (date: Date | null) => void;
+    handleSetSelectedDueDate: (date: Date) => void;
     selectedDueDate: Date;
 };
 
@@ -29,7 +28,7 @@ export default function TaskFilter({
                 <select
                     id='team-member-select'
                     value={selectedTeamMember?.id}
-                    onChange={handleSetSelectedTeamMember}
+                    onChange={(e) => handleSetSelectedTeamMember(Number(e.target.value))}
                 >
                     {users.map((user) => (
                         <option
@@ -48,7 +47,7 @@ export default function TaskFilter({
                 <select
                     id='team-member-select'
                     value={selectedPriority}
-                    onChange={handleSetSelectedPriority}
+                    onChange={(e) => handleSetSelectedPriority(e.target.value as PriorityLevel)}
                 >
                     {priorityLevels.map((priorityLevel) => (
                         <option
@@ -70,6 +69,7 @@ export default function TaskFilter({
                     value={selectedDueDate.toISOString().split('T')[0]} // convert date to string in 'yyyy-mm-dd' format
                     onChange={(e) => {
                         handleSetSelectedDueDate(new Date(e.target.value));
+
                         if (e.target.value === '') {
                             handleSetSelectedDueDate(new Date());
                         }

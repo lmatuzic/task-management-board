@@ -6,6 +6,7 @@ type PrimaryButtonProps = {
     disabled?: boolean;
     className?: string;
     id?: string;
+    type?: 'button' | 'submit' | 'reset' | undefined;
 };
 
 export default function PrimaryButton({
@@ -14,13 +15,14 @@ export default function PrimaryButton({
     content,
     className = '',
     id,
+    type = 'button',
 }: PropsWithChildren<PrimaryButtonProps>) {
     return (
         <button
             id={id}
             onClick={onClick}
             disabled={disabled}
-            type='button'
+            type={type}
             className={`btn btn--primary ${className}`}
         >
             {content}

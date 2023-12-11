@@ -1,6 +1,6 @@
 import { MutableRefObject, useState } from 'react';
-import { Task } from '../../types';
 import Dialog from '../../../../components/dialog/Dialog';
+import { Task } from '../../types';
 
 type KanbanTaskProps = {
     task: Task;

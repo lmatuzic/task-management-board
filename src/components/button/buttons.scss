@@ -4,6 +4,7 @@
     background-color: rgb(33, 59, 125);
     color: white;
     padding: 0.5rem 1.5rem;
+    white-space: nowrap;
 
     &:hover {
         transition: background-color 0.25s ease-in-out;
