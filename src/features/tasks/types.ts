@@ -4,7 +4,14 @@ export type Task = {
     id: string;
     name: string;
     dueDate: Date;
-    assignedTeamMember: string;
+    assignedTeamMember: User | null;
     priorityLevel: PriorityLevel;
     column: Column;
+};
+
+export type User = {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
 };

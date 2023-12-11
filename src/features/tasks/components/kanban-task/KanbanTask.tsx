@@ -37,7 +37,7 @@ export default function KanbanTask({ task, handleOnDragStart }: KanbanTaskProps)
                 className='kanban-task__dialog'
             >
                 <h1>{task.name}</h1>
-                <div>Assigned Team Member: {task.assignedTeamMember}</div>
+                {task.assignedTeamMember ? <div>Assigned Team Member: {task.assignedTeamMember.name}</div> : null}
                 <div>Due date: {task.dueDate.toDateString()}</div>
                 <div>Priority Level: {task.priorityLevel}</div>
             </Dialog>

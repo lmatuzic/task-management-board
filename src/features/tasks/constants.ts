@@ -21,7 +21,7 @@ export const sampleTasks: Task[] = [
         name: 'Todo item 1',
         dueDate: new Date(),
         priorityLevel: PriorityLevel.LOW,
-        assignedTeamMember: 'User 1',
+        assignedTeamMember: null,
         column: Column.TO_DO,
     },
     {
@@ -29,7 +29,7 @@ export const sampleTasks: Task[] = [
         name: 'Todo item 2',
         dueDate: new Date(),
         priorityLevel: PriorityLevel.LOW,
-        assignedTeamMember: 'User 2',
+        assignedTeamMember: null,
         column: Column.TO_DO,
     },
     {
@@ -37,7 +37,7 @@ export const sampleTasks: Task[] = [
         name: 'Todo item 3',
         dueDate: new Date(),
         priorityLevel: PriorityLevel.LOW,
-        assignedTeamMember: 'User 3',
+        assignedTeamMember: null,
         column: Column.TO_DO,
     },
 ];
