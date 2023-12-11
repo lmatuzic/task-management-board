@@ -5,7 +5,7 @@ export type Task = {
     name: string;
     dueDate: Date;
     assignedTeamMember: User | null;
-    priorityLevel: PriorityLevel;
+    priorityLevel: PriorityLevel | string;
     column: Column;
 };
 

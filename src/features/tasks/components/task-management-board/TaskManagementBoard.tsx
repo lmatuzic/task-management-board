@@ -15,7 +15,7 @@ export default function TaskManagementBoard() {
 
     // filter states
     const [selectedTeamMember, setSelectedTeamMember] = useState<User | null>(null);
-    const [selectedPriority, setSelectedPriority] = useState(PriorityLevel.LOW);
+    const [selectedPriority, setSelectedPriority] = useState<PriorityLevel | string>('All');
     const [selectedDueDate, setSelectedDueDate] = useState(new Date());
 
     const draggedTask = useRef<unknown>(null);
@@ -35,11 +35,10 @@ export default function TaskManagementBoard() {
             column: Column.TO_DO,
             dueDate: new Date(),
             assignedTeamMember: selectedTeamMember,
-            priorityLevel: selectedPriority,
+            priorityLevel: PriorityLevel.LOW,
         };
 
         if (taskPayload.name.length < 1) {
-            // addTaskError('You have to give task a name!');
             return;
         }
 
@@ -91,8 +90,8 @@ export default function TaskManagementBoard() {
     }, []);
 
     const filteredTasks = tasks.filter((task) => {
-        const isTeamMemberMatch = task.assignedTeamMember?.id === selectedTeamMember?.id;
-        const isPriorityMatch = task.priorityLevel === selectedPriority;
+        const isTeamMemberMatch = selectedTeamMember === null || task.assignedTeamMember?.id === selectedTeamMember?.id;
+        const isPriorityMatch = selectedPriority === 'All' || task.priorityLevel === selectedPriority;
         const isDueDateMatch =
             !selectedDueDate ||
             task.dueDate.toISOString().split('T')[0] === selectedDueDate.toISOString().split('T')[0];
@@ -107,7 +106,7 @@ export default function TaskManagementBoard() {
     return (
         <div className='task-management-board'>
             <header>
-                <form className='add-new-task'>
+                <div className='add-new-task'>
                     <input
                         type='text'
                         name='todo-name'
@@ -122,7 +121,7 @@ export default function TaskManagementBoard() {
                         content={<>Add Task</>}
                         type='submit'
                     />
-                </form>
+                </div>
 
                 <TaskFilter
                     users={users}

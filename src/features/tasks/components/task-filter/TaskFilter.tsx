@@ -6,7 +6,7 @@ type TaskfilterProps = {
     handleSetSelectedTeamMember: (targetMemberId: number) => void;
     selectedTeamMember: User | null;
     handleSetSelectedPriority: (priorityLevel: PriorityLevel) => void;
-    selectedPriority: PriorityLevel;
+    selectedPriority: PriorityLevel | string;
     handleSetSelectedDueDate: (date: Date) => void;
     selectedDueDate: Date;
 };
@@ -27,9 +27,11 @@ export default function TaskFilter({
 
                 <select
                     id='team-member-select'
-                    value={selectedTeamMember?.id}
+                    value={selectedTeamMember ? selectedTeamMember.id : 'All'}
                     onChange={(e) => handleSetSelectedTeamMember(Number(e.target.value))}
                 >
+                    <option value='All'>All</option>
+
                     {users.map((user) => (
                         <option
                             key={user.id}
@@ -42,13 +44,15 @@ export default function TaskFilter({
             </div>
 
             <div className='task-filter__item'>
-                <label htmlFor='team-member-select'>Priority</label>
+                <label htmlFor='priority-select'>Priority</label>
 
                 <select
-                    id='team-member-select'
+                    id='priority-select'
                     value={selectedPriority}
                     onChange={(e) => handleSetSelectedPriority(e.target.value as PriorityLevel)}
                 >
+                    <option value='All'>All</option>
+
                     {priorityLevels.map((priorityLevel) => (
                         <option
                             key={priorityLevel}
