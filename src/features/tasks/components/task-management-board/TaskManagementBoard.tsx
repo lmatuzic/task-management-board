@@ -4,7 +4,8 @@ import { fetchUsers } from '../../actions/fetchUsers';
 import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
 import { Task, User } from '../../types';
 import Kanban from '../kanban/Kanban';
-import TodosHeader from '../tasks-header/TasksHeader';
+import TaskFilter from '../task-filter/TaskFilter';
+import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 
 export default function TaskManagementBoard() {
     const [taskName, setTaskName] = useState('');
@@ -15,6 +16,7 @@ export default function TaskManagementBoard() {
     // filter states
     const [selectedTeamMember, setSelectedTeamMember] = useState<User | null>(null);
     const [selectedPriority, setSelectedPriority] = useState(PriorityLevel.LOW);
+    const [selectedDueDate, setSelectedDueDate] = useState(new Date());
 
     const draggedTask = useRef<unknown>(null);
 
@@ -63,6 +65,10 @@ export default function TaskManagementBoard() {
         setSelectedPriority(selectedPriorityValue);
     };
 
+    const handleSetSelectedDueDate = (date: Date | null) => {
+        setSelectedDueDate(date || new Date()); // if date is null, use the current date
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -86,8 +92,11 @@ export default function TaskManagementBoard() {
     const filteredTasks = tasks.filter((task) => {
         const isTeamMemberMatch = task.assignedTeamMember?.id === selectedTeamMember?.id;
         const isPriorityMatch = task.priorityLevel === selectedPriority;
+        const isDueDateMatch =
+            !selectedDueDate ||
+            task.dueDate.toISOString().split('T')[0] === selectedDueDate.toISOString().split('T')[0];
 
-        return isTeamMemberMatch && isPriorityMatch;
+        return isTeamMemberMatch && isPriorityMatch && isDueDateMatch;
     });
 
     if (isLoading) {
@@ -96,16 +105,32 @@ export default function TaskManagementBoard() {
 
     return (
         <div className='task-management-board'>
-            <TodosHeader
-                taskName={taskName}
-                handleSetTaskName={handleSetTaskName}
-                handleAddTask={handleAddTask}
-                users={users}
-                handleSetSelectedTeamMember={handleSetSelectedTeamMember}
-                selectedTeamMember={selectedTeamMember}
-                handleSetSelectedPriority={handleSetSelectedPriority}
-                selectedPriority={selectedPriority}
-            />
+            <header>
+                <div className='add-new-task'>
+                    <input
+                        type='text'
+                        name='todo-name'
+                        value={taskName}
+                        placeholder='Type task name'
+                        onChange={handleSetTaskName}
+                    />
+
+                    <PrimaryButton
+                        onClick={handleAddTask}
+                        content={<>Add Task</>}
+                    />
+                </div>
+
+                <TaskFilter
+                    users={users}
+                    handleSetSelectedTeamMember={handleSetSelectedTeamMember}
+                    selectedTeamMember={selectedTeamMember}
+                    handleSetSelectedDueDate={handleSetSelectedDueDate}
+                    selectedDueDate={selectedDueDate}
+                    handleSetSelectedPriority={handleSetSelectedPriority}
+                    selectedPriority={selectedPriority}
+                />
+            </header>
 
             <Kanban
                 taskBoardColumns={taskBoardColumns}
