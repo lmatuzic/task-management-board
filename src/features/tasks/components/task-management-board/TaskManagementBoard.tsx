@@ -11,7 +11,10 @@ export default function TaskManagementBoard() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    // filter states
     const [selectedTeamMember, setSelectedTeamMember] = useState<User | null>(null);
+    const [selectedPriority, setSelectedPriority] = useState(PriorityLevel.LOW);
 
     const draggedTask = useRef<unknown>(null);
 
@@ -29,8 +32,8 @@ export default function TaskManagementBoard() {
             name: taskName,
             column: Column.TO_DO,
             dueDate: new Date(),
-            assignedTeamMember: users[0],
-            priorityLevel: PriorityLevel.HIGH,
+            assignedTeamMember: selectedTeamMember,
+            priorityLevel: selectedPriority,
         };
 
         if (taskPayload.name.length < 1) {
@@ -55,6 +58,11 @@ export default function TaskManagementBoard() {
         setSelectedTeamMember(selectedUser || null);
     };
 
+    const handleSetSelectedPriority = (e: ChangeEvent<HTMLSelectElement>) => {
+        const selectedPriorityValue = e.target.value as PriorityLevel;
+        setSelectedPriority(selectedPriorityValue);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -75,9 +83,12 @@ export default function TaskManagementBoard() {
         fetchData();
     }, []);
 
-    const filteredTasks = selectedTeamMember
-        ? tasks.filter((task) => task.assignedTeamMember?.id === selectedTeamMember.id)
-        : tasks;
+    const filteredTasks = tasks.filter((task) => {
+        const isTeamMemberMatch = task.assignedTeamMember?.id === selectedTeamMember?.id;
+        const isPriorityMatch = task.priorityLevel === selectedPriority;
+
+        return isTeamMemberMatch && isPriorityMatch;
+    });
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -92,6 +103,8 @@ export default function TaskManagementBoard() {
                 users={users}
                 handleSetSelectedTeamMember={handleSetSelectedTeamMember}
                 selectedTeamMember={selectedTeamMember}
+                handleSetSelectedPriority={handleSetSelectedPriority}
+                selectedPriority={selectedPriority}
             />
 
             <Kanban

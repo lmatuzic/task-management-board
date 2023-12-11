@@ -9,9 +9,11 @@ export enum Column {
 
 export enum PriorityLevel {
     LOW = 'Low',
-    HIGH = 'HIGH',
+    HIGH = 'High',
     CRITICAL = 'Critical',
 }
+
+export const priorityLevels: PriorityLevel[] = [PriorityLevel.LOW, PriorityLevel.HIGH, PriorityLevel.CRITICAL];
 
 export const taskBoardColumns = Object.values(Column);
 

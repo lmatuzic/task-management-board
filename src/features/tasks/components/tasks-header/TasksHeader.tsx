@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import { User } from '../../types';
+import { PriorityLevel, priorityLevels } from '../../constants';
 
 type TasksHeaderProps = {
     taskName: string;
@@ -9,6 +10,8 @@ type TasksHeaderProps = {
     users: User[];
     handleSetSelectedTeamMember: (e: ChangeEvent<HTMLSelectElement>) => void;
     selectedTeamMember: User | null;
+    handleSetSelectedPriority: (e: ChangeEvent<HTMLSelectElement>) => void;
+    selectedPriority: PriorityLevel;
 };
 
 export default function TasksHeader({
@@ -18,6 +21,8 @@ export default function TasksHeader({
     users,
     handleSetSelectedTeamMember,
     selectedTeamMember,
+    handleSetSelectedPriority,
+    selectedPriority,
 }: TasksHeaderProps) {
     // const username = `${selectedTeamMember.firstName} ${selectedTeamMember.lastName}`;
 
@@ -39,22 +44,43 @@ export default function TasksHeader({
             </div>
 
             <div className='task-filter'>
-                <label htmlFor='team-member-select'>Select Team Member</label>
+                <div>
+                    <label htmlFor='team-member-select'>Team Member</label>
 
-                <select
-                    id='team-member-select'
-                    value={selectedTeamMember?.id}
-                    onChange={handleSetSelectedTeamMember}
-                >
-                    {users.map((user) => (
-                        <option
-                            key={user.id}
-                            value={user.id}
-                        >
-                            {user.name}
-                        </option>
-                    ))}
-                </select>
+                    <select
+                        id='team-member-select'
+                        value={selectedTeamMember?.id}
+                        onChange={handleSetSelectedTeamMember}
+                    >
+                        {users.map((user) => (
+                            <option
+                                key={user.id}
+                                value={user.id}
+                            >
+                                {user.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor='team-member-select'>Priority</label>
+
+                    <select
+                        id='team-member-select'
+                        value={selectedPriority}
+                        onChange={handleSetSelectedPriority}
+                    >
+                        {priorityLevels.map((priorityLevel, index) => (
+                            <option
+                                key={index}
+                                value={priorityLevel}
+                            >
+                                {priorityLevel}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
         </header>
     );
