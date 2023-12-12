@@ -24,10 +24,7 @@ export default function Dialog({ children, isOpen, closeDialog, className = '' }
                         {children}
 
                         <div className='dialog-btn-container'>
-                            <PrimaryButton
-                                onClick={closeDialog}
-                                content={<>Close</>}
-                            />
+                            <PrimaryButton onClick={closeDialog}>Close</PrimaryButton>
                         </div>
                     </dialog>
                 </Portal>

@@ -15,3 +15,5 @@ export type TeamMember = {
     username: string;
     email: string;
 };
+
+export type PropertyType = 'name' | 'dueDate' | 'priorityLevel' | 'assignedTeamMember';

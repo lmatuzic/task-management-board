@@ -6,6 +6,7 @@ import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
 import { Task, TeamMember } from '../../types';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
+import { useTaskFilter } from '../../hooks/useTaskFilter';
 
 export default function TaskManagementBoard() {
     const [taskName, setTaskName] = useState('');
@@ -13,12 +14,17 @@ export default function TaskManagementBoard() {
     const [users, setUsers] = useState<TeamMember[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // filter states
-    const [selectedTeamMember, setSelectedTeamMember] = useState<TeamMember | null>(null);
-    const [selectedPriority, setSelectedPriority] = useState<PriorityLevel | string>('All');
-    const [selectedDueDate, setSelectedDueDate] = useState(new Date());
-
     const draggedTask = useRef<unknown>(null);
+
+    const {
+        filteredTasks,
+        selectedTeamMember,
+        selectedPriority,
+        selectedDueDate,
+        handleSetSelectedTeamMember,
+        handleSetSelectedPriority,
+        handleSetSelectedDueDate,
+    } = useTaskFilter({ tasks, users });
 
     const handleSetTaskName = (name: string) => {
         setTaskName(name);
@@ -56,19 +62,6 @@ export default function TaskManagementBoard() {
         );
     };
 
-    const handleSetSelectedTeamMember = (targetMemberId: number) => {
-        const selectedUser = users.find((user) => user.id === targetMemberId);
-        setSelectedTeamMember(selectedUser || null);
-    };
-
-    const handleSetSelectedPriority = (priorityLevel: PriorityLevel) => {
-        setSelectedPriority(priorityLevel);
-    };
-
-    const handleSetSelectedDueDate = (date: Date) => {
-        setSelectedDueDate(date || new Date());
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -87,17 +80,6 @@ export default function TaskManagementBoard() {
 
         fetchData();
     }, []);
-
-    const filteredTasks = tasks.filter((task) => {
-        const isTeamMemberMatch = selectedTeamMember === null || task.assignedTeamMember?.id === selectedTeamMember?.id;
-        const isPriorityMatch = selectedPriority === 'All' || task.priorityLevel === selectedPriority;
-
-        const isDueDateMatch =
-            !selectedDueDate ||
-            task.dueDate.toISOString().split('T')[0] === selectedDueDate.toISOString().split('T')[0];
-
-        return isTeamMemberMatch && isPriorityMatch && isDueDateMatch;
-    });
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -118,9 +100,10 @@ export default function TaskManagementBoard() {
 
                     <PrimaryButton
                         onClick={handleAddTask}
-                        content={<>Add Task</>}
                         type='submit'
-                    />
+                    >
+                        Add Task
+                    </PrimaryButton>
                 </div>
 
                 <TaskFilter

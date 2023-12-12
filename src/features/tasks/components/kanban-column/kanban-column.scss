@@ -1,5 +1,5 @@
 .kanban-column {
-    border: 2px solid black;
+    border: 1px solid black;
     background-color: lightgrey;
     min-height: 8rem;
     height: fit-content;
@@ -7,7 +7,7 @@
     h2 {
         margin: 0;
         padding: 0.5rem;
-        border-bottom: 2px solid black;
+        border-bottom: 1px solid black;
     }
 
     &.to-do {

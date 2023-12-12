@@ -1,7 +1,7 @@
-import { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 type PrimaryButtonProps = {
-    content: ReactNode;
+    children: ReactNode;
     onClick?: MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
     className?: string;
@@ -10,13 +10,13 @@ type PrimaryButtonProps = {
 };
 
 export default function PrimaryButton({
+    children,
     onClick,
     disabled,
-    content,
     className = '',
     id,
     type = 'button',
-}: PropsWithChildren<PrimaryButtonProps>) {
+}: PrimaryButtonProps) {
     return (
         <button
             id={id}
@@ -25,7 +25,7 @@ export default function PrimaryButton({
             type={type}
             className={`btn btn--primary ${className}`}
         >
-            {content}
+            {children}
         </button>
     );
 }

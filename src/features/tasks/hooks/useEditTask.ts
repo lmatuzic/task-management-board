@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Task } from '../types';
-
-type PropertyType = 'name' | 'dueDate' | 'priorityLevel' | 'assignedTeamMember';
+import { PropertyType, Task } from '../types';
 
 type UseHandleTaskProps = {
     tasks: Task[];
@@ -9,7 +7,7 @@ type UseHandleTaskProps = {
     handleSetTasks: (tasks: Task[]) => void;
 };
 
-export default function useHandleTask({ tasks, handleSetTasks, task }: UseHandleTaskProps) {
+export default function useEditTask({ tasks, handleSetTasks, task }: UseHandleTaskProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTask, setEditedTask] = useState(task);
