@@ -52,6 +52,12 @@ export default function KanbanTask({
         handleSetTasks(updatedTasks);
     };
 
+    const handleDeleteTask = () => {
+        const updatedTasks = tasks.filter((task) => task.id !== task.id);
+        handleSetTasks(updatedTasks);
+        setIsDialogOpen(false);
+    };
+
     return (
         <>
             <div
@@ -149,6 +155,11 @@ export default function KanbanTask({
                         <PrimaryButton
                             onClick={() => setIsEditing(true)}
                             content={<>Edit</>}
+                        />
+
+                        <PrimaryButton
+                            onClick={handleDeleteTask}
+                            content={<>Delete</>}
                         />
                     </>
                 )}
