@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactNode } from 'react';
-import Portal from './Portal';
 import PrimaryButton from '../button/primary-button/PrimaryButton';
+import Portal from './Portal';
 
 type DialogProps = {
     children: ReactNode;

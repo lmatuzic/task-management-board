@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import { fetchUsers } from '../../actions/fetchUsers';
 import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
+import { useTaskFilter } from '../../hooks/useTaskFilter';
 import { Task, TeamMember } from '../../types';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
-import { useTaskFilter } from '../../hooks/useTaskFilter';
 
 export default function TaskManagementBoard() {
     const [taskName, setTaskName] = useState('');

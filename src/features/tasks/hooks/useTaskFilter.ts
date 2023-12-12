@@ -1,8 +1,6 @@
-// Import necessary dependencies and constants
-
 import { useState } from 'react';
-import { Task, TeamMember } from '../types';
 import { PriorityLevel } from '../constants';
+import { Task, TeamMember } from '../types';
 
 type UseTaskFilterProps = {
     tasks: Task[];

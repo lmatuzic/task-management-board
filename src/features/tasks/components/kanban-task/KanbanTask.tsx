@@ -1,8 +1,8 @@
 import { MutableRefObject } from 'react';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import Dialog from '../../../../components/dialog/Dialog';
-import { Task, TeamMember } from '../../types';
 import useEditTask from '../../hooks/useEditTask';
+import { Task, TeamMember } from '../../types';
 import EditableTaskContent from '../editable-task-content/EditableTaskContent';
 
 type KanbanTaskProps = {
