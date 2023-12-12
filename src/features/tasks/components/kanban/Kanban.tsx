@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { Column } from '../../constants';
-import { Task } from '../../types';
+import { Task, TeamMember } from '../../types';
 import KanbanColumn from '../kanban-column/KanbanColumn';
 
 export type KanbanProps = {
@@ -9,6 +9,9 @@ export type KanbanProps = {
     handleOnDragStart: (task: Task) => void;
     draggedTask: MutableRefObject<unknown>;
     handleColumnDrop: (column: Column) => void;
+    handleSetTasks: (tasks: Task[]) => void;
+    handleSetSelectedDueDate: (date: Date) => void;
+    users: TeamMember[];
 };
 
 export default function Kanban({
@@ -17,6 +20,9 @@ export default function Kanban({
     handleOnDragStart,
     draggedTask,
     handleColumnDrop,
+    handleSetTasks,
+    handleSetSelectedDueDate,
+    users,
 }: KanbanProps) {
     return (
         <div className='kanban'>
@@ -28,6 +34,9 @@ export default function Kanban({
                     handleOnDragStart={handleOnDragStart}
                     draggedTask={draggedTask}
                     handleColumnDrop={handleColumnDrop}
+                    handleSetTasks={handleSetTasks}
+                    handleSetSelectedDueDate={handleSetSelectedDueDate}
+                    users={users}
                 />
             ))}
         </div>

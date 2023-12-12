@@ -1,10 +1,10 @@
 import { PriorityLevel, priorityLevels } from '../../constants';
-import { User } from '../../types';
+import { TeamMember } from '../../types';
 
 type TaskfilterProps = {
-    users: User[];
+    users: TeamMember[];
     handleSetSelectedTeamMember: (targetMemberId: number) => void;
-    selectedTeamMember: User | null;
+    selectedTeamMember: TeamMember | null;
     handleSetSelectedPriority: (priorityLevel: PriorityLevel) => void;
     selectedPriority: PriorityLevel | string;
     handleSetSelectedDueDate: (date: Date) => void;

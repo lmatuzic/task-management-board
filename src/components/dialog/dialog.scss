@@ -20,9 +20,11 @@
     padding: 2.5rem;
     min-width: 35rem;
 
-    @include md {
+    @include sm {
         padding: 1rem;
         min-width: auto;
+        width: auto;
+        margin: 1rem;
     }
 
     &-btn-container {
