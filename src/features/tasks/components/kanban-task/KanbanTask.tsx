@@ -1,12 +1,11 @@
-import { MutableRefObject, useState } from 'react';
+import { MutableRefObject } from 'react';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import Dialog from '../../../../components/dialog/Dialog';
 import TextField from '../../../../components/input/TextField';
 import SelectField from '../../../../components/select/SelectField';
 import { priorityLevels } from '../../constants';
 import { Task, TeamMember } from '../../types';
-
-type PropertyType = 'name' | 'dueDate' | 'priorityLevel' | 'assignedTeamMember';
+import useHandleTask from '../../hooks/useHandleTask';
 
 type KanbanTaskProps = {
     tasks: Task[];
@@ -26,37 +25,21 @@ export default function KanbanTask({
     handleSetSelectedDueDate,
     users,
 }: KanbanTaskProps) {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedTask, setEditedTask] = useState(task);
-
-    const openDialog = () => {
-        setIsDialogOpen(true);
-    };
-
-    const closeDialog = () => {
-        setIsDialogOpen(false);
-        setIsEditing(false);
-    };
-
-    const handleTaskPropertyChange = <T extends PropertyType>(property: T, value: Task[T]) => {
-        setEditedTask((prevTask) => ({
-            ...prevTask,
-            [property]: value,
-        }));
-
-        const updatedTasks = tasks.map((taskItem) =>
-            taskItem.id === task.id ? { ...taskItem, [property]: value } : taskItem,
-        );
-
-        handleSetTasks(updatedTasks);
-    };
-
-    const handleDeleteTask = () => {
-        const updatedTasks = tasks.filter((task) => task.id !== task.id);
-        handleSetTasks(updatedTasks);
-        setIsDialogOpen(false);
-    };
+    const {
+        openDialog,
+        closeDialog,
+        isDialogOpen,
+        handleTaskPropertyChange,
+        handleDeleteTask,
+        isEditing,
+        editedTask,
+        startTaskEdit,
+        closeTaskEdit,
+    } = useHandleTask({
+        tasks,
+        task,
+        handleSetTasks,
+    });
 
     return (
         <>
@@ -139,7 +122,7 @@ export default function KanbanTask({
                         </div>
 
                         <PrimaryButton
-                            onClick={() => setIsEditing(false)}
+                            onClick={closeTaskEdit}
                             content={<>FInish editing</>}
                         />
                     </div>
@@ -153,7 +136,7 @@ export default function KanbanTask({
                         ) : null}
 
                         <PrimaryButton
-                            onClick={() => setIsEditing(true)}
+                            onClick={startTaskEdit}
                             content={<>Edit</>}
                         />
 
