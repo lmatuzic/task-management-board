@@ -1,7 +1,7 @@
 import { createContext, useMemo, useReducer } from 'react';
 import { ContextProps, ContextProviderProps } from '../../../context/types';
-import { TaskActions } from './types';
 import taskReducer, { TaskState } from './reducer';
+import { TaskActions } from './types';
 
 const initialState: TaskState = {
     tasks: [],
@@ -18,6 +18,7 @@ export const TaskContext = createContext<ContextProps<TaskState, TaskActions>>({
 export const TaskContextProvider = ({ children }: ContextProviderProps) => {
     const [state, dispatch] = useReducer(taskReducer, initialState);
 
+    // reasoning behind using useMemo for data and dispatch can be explored in this article: https://hswolff.com/blog/how-to-usecontext-with-usereducer/#performance-concerns
     const contextValue = useMemo(() => {
         return { state, dispatch };
     }, [state, dispatch]);

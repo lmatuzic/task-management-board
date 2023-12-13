@@ -1,4 +1,4 @@
-import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
+import PrimaryButton from '../../../../components/button/PrimaryButton';
 import TextField from '../../../../components/input/TextField';
 import SelectField from '../../../../components/select/SelectField';
 import { priorityLevels } from '../../constants';
@@ -81,7 +81,7 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <PrimaryButton onClick={closeTaskEdit}>Finish</PrimaryButton>
+            <PrimaryButton onClick={closeTaskEdit}>Finish editing</PrimaryButton>
         </div>
     );
 }

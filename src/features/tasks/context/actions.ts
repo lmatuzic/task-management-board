@@ -1,6 +1,12 @@
 import { Task, TeamMember } from '../types';
-import { TaskActionTypes } from './constants';
 import { SetIsFetchingTeamMembers, SetTaskName, SetTasks, SetTeamMembers } from './types';
+
+export enum TaskActionTypes {
+    SET_TASKS = 'SET_TASKS',
+    SET_TASK_NAME = 'SET_TASK_NAME',
+    SET_TEAM_MEMBERS = 'SET_TEAM_MEMBERS',
+    SET_IS_FETCHING_TEAM_MEMBERS = 'SET_IS_FETCHING_TEAM_MEMBERS',
+}
 
 export const setTasks = (payload: Task[]): SetTasks => ({
     type: TaskActionTypes.SET_TASKS,

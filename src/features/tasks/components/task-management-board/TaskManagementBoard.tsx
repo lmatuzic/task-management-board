@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
-import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
+import PrimaryButton from '../../../../components/button/PrimaryButton';
 import { taskBoardColumns } from '../../constants';
 import useTaskContext from '../../context/useTaskContext';
 import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
+import useTeamMembers from '../../hooks/useTeamMembers';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
-import useTeamMembers from '../../hooks/useTeamMembers';
 
 export default function TaskManagementBoard() {
     const draggedTask = useRef<unknown>(null);

@@ -1,13 +1,28 @@
 .btn {
     cursor: pointer;
     border: none;
-    background-color: rgb(33, 59, 125);
-    color: white;
     padding: 0.5rem 1.5rem;
     white-space: nowrap;
 
     &:hover {
         transition: background-color 0.25s ease-in-out;
-        background-color: darken($color: rgb(33, 59, 125), $amount: 10);
+    }
+
+    &--primary {
+        background-color: rgb(33, 59, 125);
+        color: white;
+
+        &:hover {
+            background-color: darken($color: rgb(33, 59, 125), $amount: 10);
+        }
+    }
+
+    &--warning {
+        background-color: rgb(162, 29, 51);
+        color: white;
+
+        &:hover {
+            background-color: darken($color: rgb(162, 29, 51), $amount: 10);
+        }
     }
 }

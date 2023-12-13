@@ -31,26 +31,16 @@ export default function useEditTask({ tasks, handleSetTasks, task }: UseHandleTa
     };
 
     const handleTaskPropertyChange = <T extends PropertyType>(property: T, value: Task[T]) => {
-        if (editedTask) {
-            setEditedTask((prevTask) => ({
-                ...prevTask,
-                [property]: value,
-            }));
+        setEditedTask((prevTask) => ({
+            ...prevTask,
+            [property]: value,
+        }));
 
-            const updatedTasks = tasks.map((taskItem) =>
-                taskItem.id === editedTask.id ? { ...taskItem, [property]: value } : taskItem,
-            );
+        const updatedTasks = tasks.map((taskItem) =>
+            taskItem.id === editedTask.id ? { ...taskItem, [property]: value } : taskItem,
+        );
 
-            handleSetTasks(updatedTasks);
-        }
-    };
-
-    const handleDeleteTask = () => {
-        if (editedTask) {
-            const updatedTasks = tasks.filter((task) => task.id !== editedTask.id);
-            handleSetTasks(updatedTasks);
-            setIsDialogOpen(false);
-        }
+        handleSetTasks(updatedTasks);
     };
 
     return {
@@ -60,7 +50,6 @@ export default function useEditTask({ tasks, handleSetTasks, task }: UseHandleTa
         openDialog,
         closeDialog,
         handleTaskPropertyChange,
-        handleDeleteTask,
         closeTaskEdit,
         startTaskEdit,
     };

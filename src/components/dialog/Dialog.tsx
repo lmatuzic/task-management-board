@@ -1,5 +1,5 @@
+import { X } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
-import PrimaryButton from '../button/primary-button/PrimaryButton';
 import Portal from './Portal';
 
 type DialogProps = {
@@ -21,11 +21,12 @@ export default function Dialog({ children, isOpen, closeDialog, className = '' }
                         onClose={closeDialog}
                         className={`dialog ${className}`}
                     >
+                        <X
+                            onClick={closeDialog}
+                            className='close-dialog-icon'
+                            size={20}
+                        />
                         {children}
-
-                        <div className='dialog-btn-container'>
-                            <PrimaryButton onClick={closeDialog}>Close</PrimaryButton>
-                        </div>
                     </dialog>
                 </Portal>
             ) : null}

@@ -1,5 +1,5 @@
 import { Task, TeamMember } from '../types';
-import { TaskActionTypes } from './constants';
+import { TaskActionTypes } from './actions';
 import { TaskActions } from './types';
 
 export type TaskState = {

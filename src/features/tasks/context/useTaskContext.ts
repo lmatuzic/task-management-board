@@ -10,10 +10,12 @@ export default function useTaskContext() {
 
     const handleSetTasks = useCallback((tasks: Task[]) => dispatch(setTasks(tasks)), [dispatch]);
     const handleSetTaskName = useCallback((taskName: string) => dispatch(setTaskName(taskName)), [dispatch]);
+
     const handleSetTeamMembers = useCallback(
         (teamMembers: TeamMember[]) => dispatch(setTeamMembers(teamMembers)),
         [dispatch],
     );
+
     const handleSetIsFetchingTeamMembers = useCallback(
         (isFetching: boolean) => dispatch(setIsFetchingTeamMembers(isFetching)),
         [dispatch],
@@ -37,6 +39,12 @@ export default function useTaskContext() {
         handleSetTaskName('');
     }, [handleSetTaskName, handleSetTasks, state.taskName, state.tasks]);
 
+    const handleDeleteTask = (editedTask: Task, closeEditDialog: () => void) => {
+        const updatedTasks = state.tasks.filter((task) => task.id !== editedTask.id);
+        handleSetTasks(updatedTasks);
+        closeEditDialog;
+    };
+
     return {
         tasks: state.tasks,
         teamMembers: state.teamMembers,
@@ -47,5 +55,6 @@ export default function useTaskContext() {
         handleSetTeamMembers,
         handleSetIsFetchingTeamMembers,
         handleAddTask,
+        handleDeleteTask,
     };
 }
