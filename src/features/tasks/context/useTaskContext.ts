@@ -1,6 +1,8 @@
 import { useCallback, useContext } from 'react';
-import { TaskContext } from './TaskContext';
+import { v4 as uuidv4 } from 'uuid';
+import { Column, PriorityLevel } from '../constants';
 import { Task, TeamMember } from '../types';
+import { TaskContext } from './TaskContext';
 import { setIsFetchingTeamMembers, setTaskName, setTasks, setTeamMembers } from './actions';
 
 export default function useTaskContext() {
@@ -17,6 +19,24 @@ export default function useTaskContext() {
         [dispatch],
     );
 
+    const handleAddTask = useCallback(() => {
+        const taskPayload: Task = {
+            id: uuidv4(),
+            name: state.taskName,
+            column: Column.TO_DO,
+            dueDate: new Date(),
+            assignedTeamMember: null,
+            priorityLevel: PriorityLevel.LOW,
+        };
+
+        if (taskPayload.name.length < 1) {
+            return;
+        }
+
+        handleSetTasks([...state.tasks, taskPayload]);
+        handleSetTaskName('');
+    }, [handleSetTaskName, handleSetTasks, state.taskName, state.tasks]);
+
     return {
         tasks: state.tasks,
         teamMembers: state.teamMembers,
@@ -26,5 +46,6 @@ export default function useTaskContext() {
         handleSetTaskName,
         handleSetTeamMembers,
         handleSetIsFetchingTeamMembers,
+        handleAddTask,
     };
 }

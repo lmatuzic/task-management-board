@@ -1,15 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
-import { fetchUsers } from '../../actions/fetchUsers';
-import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
+import { taskBoardColumns } from '../../constants';
 import useTaskContext from '../../context/useTaskContext';
+import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
-import { Task, TeamMember } from '../../types';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
+import useTeamMembers from '../../hooks/useTeamMembers';
 
 export default function TaskManagementBoard() {
+    const draggedTask = useRef<unknown>(null);
+
     const {
         tasks,
         taskName,
@@ -19,9 +20,10 @@ export default function TaskManagementBoard() {
         handleSetTasks,
         handleSetTeamMembers,
         handleSetIsFetchingTeamMembers,
+        handleAddTask,
     } = useTaskContext();
 
-    const draggedTask = useRef<unknown>(null);
+    const { handleOnDragStart, handleColumnDrop } = useDragAndDrop({ draggedTask });
 
     const {
         filteredTasks,
@@ -33,51 +35,11 @@ export default function TaskManagementBoard() {
         handleSetSelectedDueDate,
     } = useTaskFilter({ tasks, teamMembers });
 
-    const handleAddTask = () => {
-        const taskPayload: Task = {
-            id: uuidv4(),
-            name: taskName,
-            column: Column.TO_DO,
-            dueDate: new Date(),
-            assignedTeamMember: null,
-            priorityLevel: PriorityLevel.LOW,
-        };
-
-        if (taskPayload.name.length < 1) {
-            return;
-        }
-
-        handleSetTasks([...tasks, taskPayload]);
-        handleSetTaskName('');
-    };
-
-    const handleOnDragStart = (task: Task) => {
-        draggedTask.current = task.id; // assigning currently dragged task ref to the one we're dragging
-    };
-
-    const handleColumnDrop = (column: Column) => {
-        const updatedTasks = tasks.map((task) => (task.id === draggedTask.current ? { ...task, column } : task));
-        handleSetTasks(updatedTasks);
-    };
+    const { fetchTeamMembers } = useTeamMembers({ handleSetIsFetchingTeamMembers, handleSetTeamMembers });
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                handleSetIsFetchingTeamMembers(true);
-                const fetchedUsers: TeamMember[] = await fetchUsers();
-
-                if (fetchedUsers) {
-                    handleSetTeamMembers(fetchedUsers);
-                }
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            } finally {
-                handleSetIsFetchingTeamMembers(false);
-            }
-        };
-
-        fetchData();
-    }, [handleSetIsFetchingTeamMembers, handleSetTeamMembers]);
+        fetchTeamMembers();
+    }, [fetchTeamMembers]);
 
     if (isFetchingTeamMembers) {
         return <div>Loading...</div>;
@@ -122,7 +84,7 @@ export default function TaskManagementBoard() {
                 tasks={filteredTasks}
                 handleOnDragStart={handleOnDragStart}
                 draggedTask={draggedTask}
-                handleColumnDrop={handleColumnDrop}
+                handleColumnDrop={(e) => handleColumnDrop(tasks, e)}
                 handleSetTasks={handleSetTasks}
                 handleSetSelectedDueDate={handleSetSelectedDueDate}
                 users={teamMembers}
