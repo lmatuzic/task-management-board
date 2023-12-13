@@ -1,0 +1,43 @@
+.kanban-task {
+    border: 1px solid black;
+    margin: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: white;
+
+    &:focus {
+        border-color: rgb(0, 123, 255);
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    &__dialog {
+        h1 {
+            margin-bottom: 2rem;
+        }
+    }
+
+    &-edit {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        &__item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            label {
+                font-size: 0.75rem;
+            }
+        }
+
+        button {
+            width: fit-content;
+            margin-left: auto;
+        }
+    }
+}

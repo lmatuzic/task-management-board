@@ -1,10 +1,15 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './index.scss';
+import './styles/main.scss';
+
+// add portal root to the document body
+const portalRoot = document.createElement('div');
+portalRoot.id = 'portal-root';
+document.body.appendChild(portalRoot);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
+    <StrictMode>
         <App />
-    </React.StrictMode>,
+    </StrictMode>,
 );
