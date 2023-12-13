@@ -21,4 +21,9 @@ export type SetIsFetchingTeamMembers = {
     payload: boolean;
 };
 
-export type TaskActions = SetTasks | SetTaskName | SetTeamMembers | SetIsFetchingTeamMembers;
+export type SetDueDate = {
+    type: TaskActionTypes.SET_DUE_DATE;
+    payload: string;
+};
+
+export type TaskActions = SetTasks | SetTaskName | SetTeamMembers | SetIsFetchingTeamMembers | SetDueDate;

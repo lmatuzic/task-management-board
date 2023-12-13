@@ -2,9 +2,9 @@ import { useCallback, useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Column, PriorityLevel } from '../constants';
 import { Task, TeamMember } from '../types';
-import { TaskContext } from './TaskContext';
-import { setIsFetchingTeamMembers, setTaskName, setTasks, setTeamMembers } from './actions';
 import { formatDate } from '../utils/formatDate';
+import { TaskContext } from './TaskContext';
+import { setDueDate, setIsFetchingTeamMembers, setTaskName, setTasks, setTeamMembers } from './actions';
 
 export default function useTaskContext() {
     const { state, dispatch } = useContext(TaskContext);
@@ -21,6 +21,8 @@ export default function useTaskContext() {
         (isFetching: boolean) => dispatch(setIsFetchingTeamMembers(isFetching)),
         [dispatch],
     );
+
+    const handleSetDueDate = useCallback((dueDate: string) => dispatch(setDueDate(dueDate)), [dispatch]);
 
     const handleAddTask = useCallback(() => {
         const taskPayload: Task = {
@@ -57,5 +59,6 @@ export default function useTaskContext() {
         handleSetIsFetchingTeamMembers,
         handleAddTask,
         handleDeleteTask,
+        handleSetDueDate,
     };
 }

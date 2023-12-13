@@ -29,6 +29,18 @@ export default function taskReducer(state: TaskState, action: TaskActions) {
                 teamMembers: action.payload,
             };
 
+        case TaskActionTypes.SET_IS_FETCHING_TEAM_MEMBERS:
+            return {
+                ...state,
+                isFetchingTeamMembers: action.payload,
+            };
+
+        case TaskActionTypes.SET_DUE_DATE:
+            return {
+                ...state,
+                dueDate: action.payload,
+            };
+
         default:
             return state;
     }

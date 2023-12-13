@@ -6,18 +6,18 @@ import { PropertyType, Task, TeamMember } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 
 type EditableTaskContentProps = {
-    users: TeamMember[];
+    teamMembers: TeamMember[];
     editedTask: Task;
     handleTaskPropertyChange: <T extends PropertyType>(property: T, value: Task[T]) => void;
-    handleSetSelectedDueDate: (date: string) => void;
+    handleSetDueDate: (date: string) => void;
     closeTaskEdit: () => void;
 };
 
 export default function EditableTaskContent({
-    users,
+    teamMembers,
     editedTask,
     handleTaskPropertyChange,
-    handleSetSelectedDueDate,
+    handleSetDueDate,
     closeTaskEdit,
 }: EditableTaskContentProps) {
     return (
@@ -39,10 +39,10 @@ export default function EditableTaskContent({
                     id='due-date-edit'
                     value={editedTask.dueDate}
                     onChange={(e) => {
-                        handleSetSelectedDueDate(formatDate(new Date(e.target.value)));
+                        handleSetDueDate(formatDate(new Date(e.target.value)));
 
                         if (e.target.value === '') {
-                            handleSetSelectedDueDate(formatDate(new Date()));
+                            handleSetDueDate(formatDate(new Date()));
                         }
 
                         handleTaskPropertyChange('dueDate', formatDate(new Date(e.target.value)));
@@ -70,13 +70,13 @@ export default function EditableTaskContent({
                     selectId='assigned-team-member-select-edit'
                     options={[
                         { value: '', label: 'Select Team Member' },
-                        ...users.map((teamMember) => ({
+                        ...teamMembers.map((teamMember) => ({
                             value: teamMember.id,
                             label: teamMember.name,
                         })),
                     ]}
                     onChange={(newValue) => {
-                        const selectedTeamMember = users.find((member) => member.id === Number(newValue)) ?? null;
+                        const selectedTeamMember = teamMembers.find((member) => member.id === Number(newValue)) ?? null;
                         handleTaskPropertyChange('assignedTeamMember', selectedTeamMember);
                     }}
                 />

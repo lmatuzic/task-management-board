@@ -15,7 +15,6 @@ export default function TaskManagementBoard() {
         teamMembers,
         isFetchingTeamMembers,
         handleSetTaskName,
-        handleSetTasks,
         handleSetTeamMembers,
         handleSetIsFetchingTeamMembers,
         handleAddTask,
@@ -77,9 +76,6 @@ export default function TaskManagementBoard() {
             <Kanban
                 tasks={filteredTasks}
                 draggedTask={draggedTask}
-                handleSetTasks={handleSetTasks}
-                handleSetSelectedDueDate={handleSetSelectedDueDate}
-                users={teamMembers}
             />
         </div>
     );

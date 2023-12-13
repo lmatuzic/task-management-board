@@ -1,31 +1,20 @@
 import { MutableRefObject } from 'react';
 import PrimaryButton from '../../../../components/button/PrimaryButton';
+import WarningButton from '../../../../components/button/WarningButton';
 import Dialog from '../../../../components/dialog/Dialog';
 import useTaskContext from '../../context/useTaskContext';
 import useEditTask from '../../hooks/useEditTask';
-import { Task, TeamMember } from '../../types';
+import { Task } from '../../types';
 import EditableTaskContent from '../editable-task-content/EditableTaskContent';
-import WarningButton from '../../../../components/button/WarningButton';
 
 type KanbanTaskProps = {
-    tasks: Task[];
     task: Task;
     handleOnDragStart: (task: Task) => void;
     draggedTask: MutableRefObject<unknown>;
-    handleSetTasks: (tasks: Task[]) => void;
-    handleSetSelectedDueDate: (date: string) => void;
-    users: TeamMember[];
 };
 
-export default function KanbanTask({
-    tasks,
-    task,
-    handleOnDragStart,
-    handleSetTasks,
-    handleSetSelectedDueDate,
-    users,
-}: KanbanTaskProps) {
-    const { handleDeleteTask } = useTaskContext();
+export default function KanbanTask({ task, handleOnDragStart }: KanbanTaskProps) {
+    const { handleDeleteTask, tasks, handleSetTasks, teamMembers, handleSetDueDate } = useTaskContext();
 
     const {
         openDialog,
@@ -63,10 +52,10 @@ export default function KanbanTask({
 
                 {isEditing ? (
                     <EditableTaskContent
-                        users={users}
+                        teamMembers={teamMembers}
                         editedTask={editedTask}
                         handleTaskPropertyChange={handleTaskPropertyChange}
-                        handleSetSelectedDueDate={handleSetSelectedDueDate}
+                        handleSetDueDate={handleSetDueDate}
                         closeTaskEdit={closeTaskEdit}
                     />
                 ) : (
@@ -87,6 +76,7 @@ export default function KanbanTask({
 
                         <div className='kanban-task__actions'>
                             <PrimaryButton onClick={startTaskEdit}>Edit</PrimaryButton>
+
                             <WarningButton onClick={() => handleDeleteTask(editedTask, closeDialog)}>
                                 Delete
                             </WarningButton>
