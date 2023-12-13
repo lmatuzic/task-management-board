@@ -2,7 +2,7 @@ import { PriorityLevel, priorityLevels } from '../../constants';
 import { TeamMember } from '../../types';
 
 type TaskfilterProps = {
-    users: TeamMember[];
+    teamMembers: TeamMember[];
     handleSetSelectedTeamMember: (targetMemberId: number) => void;
     selectedTeamMember: TeamMember | null;
     handleSetSelectedPriority: (priorityLevel: PriorityLevel) => void;
@@ -12,7 +12,7 @@ type TaskfilterProps = {
 };
 
 export default function TaskFilter({
-    users,
+    teamMembers,
     handleSetSelectedTeamMember,
     handleSetSelectedDueDate,
     handleSetSelectedPriority,
@@ -32,7 +32,7 @@ export default function TaskFilter({
                 >
                     <option value='All'>All</option>
 
-                    {users.map((user) => (
+                    {teamMembers.map((user) => (
                         <option
                             key={user.id}
                             value={user.id}

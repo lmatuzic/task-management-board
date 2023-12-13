@@ -4,16 +4,16 @@ import { Task, TeamMember } from '../types';
 
 type UseTaskFilterProps = {
     tasks: Task[];
-    users: TeamMember[];
+    teamMembers: TeamMember[];
 };
 
-export function useTaskFilter({ tasks, users }: UseTaskFilterProps) {
+export function useTaskFilter({ tasks, teamMembers }: UseTaskFilterProps) {
     const [selectedTeamMember, setSelectedTeamMember] = useState<TeamMember | null>(null);
     const [selectedPriority, setSelectedPriority] = useState<PriorityLevel | string>('All');
     const [selectedDueDate, setSelectedDueDate] = useState(new Date());
 
     const handleSetSelectedTeamMember = (targetMemberId: number) => {
-        const selectedUser = users.find((user) => user.id === targetMemberId);
+        const selectedUser = teamMembers.find((user) => user.id === targetMemberId);
         setSelectedTeamMember(selectedUser || null);
     };
 

@@ -1,18 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
 import { fetchUsers } from '../../actions/fetchUsers';
 import { Column, PriorityLevel, taskBoardColumns } from '../../constants';
+import useTaskContext from '../../context/useTaskContext';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
 import { Task, TeamMember } from '../../types';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
 
 export default function TaskManagementBoard() {
-    const [taskName, setTaskName] = useState('');
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [users, setUsers] = useState<TeamMember[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const {
+        tasks,
+        taskName,
+        teamMembers,
+        isFetchingTeamMembers,
+        handleSetTaskName,
+        handleSetTasks,
+        handleSetTeamMembers,
+        handleSetIsFetchingTeamMembers,
+    } = useTaskContext();
 
     const draggedTask = useRef<unknown>(null);
 
@@ -24,15 +31,7 @@ export default function TaskManagementBoard() {
         handleSetSelectedTeamMember,
         handleSetSelectedPriority,
         handleSetSelectedDueDate,
-    } = useTaskFilter({ tasks, users });
-
-    const handleSetTaskName = (name: string) => {
-        setTaskName(name);
-    };
-
-    const handleSetTasks = (tasks: Task[]) => {
-        setTasks(tasks);
-    };
+    } = useTaskFilter({ tasks, teamMembers });
 
     const handleAddTask = () => {
         const taskPayload: Task = {
@@ -57,31 +56,30 @@ export default function TaskManagementBoard() {
     };
 
     const handleColumnDrop = (column: Column) => {
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === draggedTask.current ? { ...task, column } : task)),
-        );
+        const updatedTasks = tasks.map((task) => (task.id === draggedTask.current ? { ...task, column } : task));
+        handleSetTasks(updatedTasks);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setIsLoading(true);
-                const userData = await fetchUsers();
+                handleSetIsFetchingTeamMembers(true);
+                const fetchedUsers: TeamMember[] = await fetchUsers();
 
-                if (userData) {
-                    setUsers(userData);
+                if (fetchedUsers) {
+                    handleSetTeamMembers(fetchedUsers);
                 }
             } catch (error) {
                 console.error('Error fetching users:', error);
             } finally {
-                setIsLoading(false);
+                handleSetIsFetchingTeamMembers(false);
             }
         };
 
         fetchData();
-    }, []);
+    }, [handleSetIsFetchingTeamMembers, handleSetTeamMembers]);
 
-    if (isLoading) {
+    if (isFetchingTeamMembers) {
         return <div>Loading...</div>;
     }
 
@@ -106,15 +104,17 @@ export default function TaskManagementBoard() {
                     </PrimaryButton>
                 </div>
 
-                <TaskFilter
-                    users={users}
-                    handleSetSelectedTeamMember={handleSetSelectedTeamMember}
-                    selectedTeamMember={selectedTeamMember}
-                    handleSetSelectedDueDate={handleSetSelectedDueDate}
-                    selectedDueDate={selectedDueDate}
-                    handleSetSelectedPriority={handleSetSelectedPriority}
-                    selectedPriority={selectedPriority}
-                />
+                {teamMembers && (
+                    <TaskFilter
+                        teamMembers={teamMembers}
+                        handleSetSelectedTeamMember={handleSetSelectedTeamMember}
+                        selectedTeamMember={selectedTeamMember}
+                        handleSetSelectedDueDate={handleSetSelectedDueDate}
+                        selectedDueDate={selectedDueDate}
+                        handleSetSelectedPriority={handleSetSelectedPriority}
+                        selectedPriority={selectedPriority}
+                    />
+                )}
             </header>
 
             <Kanban
@@ -125,7 +125,7 @@ export default function TaskManagementBoard() {
                 handleColumnDrop={handleColumnDrop}
                 handleSetTasks={handleSetTasks}
                 handleSetSelectedDueDate={handleSetSelectedDueDate}
-                users={users}
+                users={teamMembers}
             />
         </div>
     );
