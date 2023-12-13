@@ -13,7 +13,7 @@ type KanbanTaskProps = {
     handleOnDragStart: (task: Task) => void;
     draggedTask: MutableRefObject<unknown>;
     handleSetTasks: (tasks: Task[]) => void;
-    handleSetSelectedDueDate: (date: Date) => void;
+    handleSetSelectedDueDate: (date: string) => void;
     users: TeamMember[];
 };
 
@@ -74,7 +74,7 @@ export default function KanbanTask({
                         <h2>{task.name}</h2>
 
                         <div className='info'>
-                            <strong>Due date:</strong> {task.dueDate.toDateString()}
+                            <strong>Due date:</strong> {task.dueDate}
                         </div>
 
                         <div className='info'>

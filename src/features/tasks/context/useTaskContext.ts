@@ -4,6 +4,7 @@ import { Column, PriorityLevel } from '../constants';
 import { Task, TeamMember } from '../types';
 import { TaskContext } from './TaskContext';
 import { setIsFetchingTeamMembers, setTaskName, setTasks, setTeamMembers } from './actions';
+import { formatDate } from '../utils/formatDate';
 
 export default function useTaskContext() {
     const { state, dispatch } = useContext(TaskContext);
@@ -26,7 +27,7 @@ export default function useTaskContext() {
             id: uuidv4(),
             name: state.taskName,
             column: Column.TO_DO,
-            dueDate: new Date(),
+            dueDate: formatDate(new Date()),
             assignedTeamMember: null,
             priorityLevel: PriorityLevel.LOW,
         };

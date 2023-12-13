@@ -1,18 +1,18 @@
 import { PriorityLevel, priorityLevels } from '../../constants';
+import useTaskContext from '../../context/useTaskContext';
 import { TeamMember } from '../../types';
+import { formatDate } from '../../utils/formatDate';
 
 type TaskfilterProps = {
-    teamMembers: TeamMember[];
     handleSetSelectedTeamMember: (targetMemberId: number) => void;
     selectedTeamMember: TeamMember | null;
     handleSetSelectedPriority: (priorityLevel: PriorityLevel) => void;
     selectedPriority: PriorityLevel | string;
-    handleSetSelectedDueDate: (date: Date) => void;
-    selectedDueDate: Date;
+    handleSetSelectedDueDate: (date: string) => void;
+    selectedDueDate: string;
 };
 
 export default function TaskFilter({
-    teamMembers,
     handleSetSelectedTeamMember,
     handleSetSelectedDueDate,
     handleSetSelectedPriority,
@@ -20,6 +20,8 @@ export default function TaskFilter({
     selectedPriority,
     selectedTeamMember,
 }: TaskfilterProps) {
+    const { teamMembers } = useTaskContext();
+
     return (
         <div className='task-filter'>
             <div className='task-filter__item'>
@@ -70,12 +72,12 @@ export default function TaskFilter({
                 <input
                     type='date'
                     id='due-date'
-                    value={selectedDueDate.toISOString().split('T')[0]} // convert date to string in 'yyyy-mm-dd' format
+                    value={selectedDueDate} // convert date to string in 'yyyy-mm-dd' format
                     onChange={(e) => {
-                        handleSetSelectedDueDate(new Date(e.target.value));
+                        handleSetSelectedDueDate(formatDate(new Date(e.target.value)));
 
                         if (e.target.value === '') {
-                            handleSetSelectedDueDate(new Date());
+                            handleSetSelectedDueDate(formatDate(new Date()));
                         }
                     }}
                 />

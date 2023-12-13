@@ -3,12 +3,13 @@ import TextField from '../../../../components/input/TextField';
 import SelectField from '../../../../components/select/SelectField';
 import { priorityLevels } from '../../constants';
 import { PropertyType, Task, TeamMember } from '../../types';
+import { formatDate } from '../../utils/formatDate';
 
 type EditableTaskContentProps = {
     users: TeamMember[];
     editedTask: Task;
     handleTaskPropertyChange: <T extends PropertyType>(property: T, value: Task[T]) => void;
-    handleSetSelectedDueDate: (date: Date) => void;
+    handleSetSelectedDueDate: (date: string) => void;
     closeTaskEdit: () => void;
 };
 
@@ -36,15 +37,15 @@ export default function EditableTaskContent({
                 <input
                     type='date'
                     id='due-date-edit'
-                    value={editedTask.dueDate.toISOString().split('T')[0]}
+                    value={editedTask.dueDate}
                     onChange={(e) => {
-                        handleSetSelectedDueDate(new Date(e.target.value));
+                        handleSetSelectedDueDate(formatDate(new Date(e.target.value)));
 
                         if (e.target.value === '') {
-                            handleSetSelectedDueDate(new Date());
+                            handleSetSelectedDueDate(formatDate(new Date()));
                         }
 
-                        handleTaskPropertyChange('dueDate', new Date(e.target.value));
+                        handleTaskPropertyChange('dueDate', formatDate(new Date(e.target.value)));
                     }}
                 />
             </div>

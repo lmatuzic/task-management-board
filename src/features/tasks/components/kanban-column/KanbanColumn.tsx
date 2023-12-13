@@ -1,5 +1,6 @@
 import { MutableRefObject } from 'react';
 import { Column } from '../../constants';
+import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { Task, TeamMember } from '../../types';
 import { defineColumnStyleClass } from '../../utils/defineColumnStyleClass';
 import KanbanTask from '../kanban-task/KanbanTask';
@@ -7,11 +8,9 @@ import KanbanTask from '../kanban-task/KanbanTask';
 type KanbanColumnProps = {
     column: Column;
     tasks: Task[];
-    handleOnDragStart: (task: Task) => void;
     draggedTask: MutableRefObject<unknown>;
-    handleColumnDrop: (column: Column) => void;
     handleSetTasks: (tasks: Task[]) => void;
-    handleSetSelectedDueDate: (date: Date) => void;
+    handleSetSelectedDueDate: (date: string) => void;
     users: TeamMember[];
 };
 
@@ -19,19 +18,18 @@ export default function KanbanColumn({
     column,
     tasks,
     draggedTask,
-    handleOnDragStart,
-    handleColumnDrop,
     handleSetTasks,
     handleSetSelectedDueDate,
     users,
 }: KanbanColumnProps) {
+    const { handleOnDragStart, handleColumnDrop } = useDragAndDrop({ draggedTask });
     const columnStyleClass = defineColumnStyleClass(column);
 
     return (
         <div
             key={column}
             className={`kanban-column ${columnStyleClass}`}
-            onDrop={() => handleColumnDrop(column)}
+            onDrop={() => handleColumnDrop(tasks, column)}
             onDragOver={(e) => e.preventDefault()}
         >
             <header>

@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import PrimaryButton from '../../../../components/button/PrimaryButton';
-import { taskBoardColumns } from '../../constants';
 import useTaskContext from '../../context/useTaskContext';
-import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
 import useTeamMembers from '../../hooks/useTeamMembers';
 import Kanban from '../kanban/Kanban';
@@ -22,8 +20,6 @@ export default function TaskManagementBoard() {
         handleSetIsFetchingTeamMembers,
         handleAddTask,
     } = useTaskContext();
-
-    const { handleOnDragStart, handleColumnDrop } = useDragAndDrop({ draggedTask });
 
     const {
         filteredTasks,
@@ -68,7 +64,6 @@ export default function TaskManagementBoard() {
 
                 {teamMembers && (
                     <TaskFilter
-                        teamMembers={teamMembers}
                         handleSetSelectedTeamMember={handleSetSelectedTeamMember}
                         selectedTeamMember={selectedTeamMember}
                         handleSetSelectedDueDate={handleSetSelectedDueDate}
@@ -80,11 +75,8 @@ export default function TaskManagementBoard() {
             </header>
 
             <Kanban
-                taskBoardColumns={taskBoardColumns}
                 tasks={filteredTasks}
-                handleOnDragStart={handleOnDragStart}
                 draggedTask={draggedTask}
-                handleColumnDrop={(e) => handleColumnDrop(tasks, e)}
                 handleSetTasks={handleSetTasks}
                 handleSetSelectedDueDate={handleSetSelectedDueDate}
                 users={teamMembers}

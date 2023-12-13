@@ -3,7 +3,7 @@ import { Column, PriorityLevel } from './constants';
 export type Task = {
     id: string;
     name: string;
-    dueDate: Date;
+    dueDate: string;
     assignedTeamMember: TeamMember | null;
     priorityLevel: PriorityLevel | string;
     column: Column;
