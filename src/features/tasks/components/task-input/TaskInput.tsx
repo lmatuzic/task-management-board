@@ -13,8 +13,8 @@ export default function TaskInput({ tasks, taskName, handleSetTaskName, handleAd
     const { handleSetTaskInputError, taskInputError } = useHandleTaskInputError();
 
     return (
-        <div className='add-new-task'>
-            <div className='input-wrapper'>
+        <div className='task-input'>
+            <div className='task-input__wrapper'>
                 <input
                     type='text'
                     name='todo-name'
@@ -27,7 +27,7 @@ export default function TaskInput({ tasks, taskName, handleSetTaskName, handleAd
                     }}
                 />
 
-                {taskInputError.length > 1 && <span className='input-error'>{taskInputError}</span>}
+                {taskInputError.length > 1 && <span className='task-input__error'>{taskInputError}</span>}
             </div>
 
             <PrimaryButton
