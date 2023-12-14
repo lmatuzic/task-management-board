@@ -1,29 +1,15 @@
-import { MutableRefObject } from 'react';
-import { Column } from '../../constants';
-import { Task, TeamMember } from '../../types';
+import { useRef } from 'react';
+import { taskBoardColumns } from '../../constants';
+import { Task } from '../../types';
 import KanbanColumn from '../kanban-column/KanbanColumn';
 
 export type KanbanProps = {
-    taskBoardColumns: Column[];
     tasks: Task[];
-    handleOnDragStart: (task: Task) => void;
-    draggedTask: MutableRefObject<unknown>;
-    handleColumnDrop: (column: Column) => void;
-    handleSetTasks: (tasks: Task[]) => void;
-    handleSetSelectedDueDate: (date: Date) => void;
-    users: TeamMember[];
 };
 
-export default function Kanban({
-    taskBoardColumns,
-    tasks,
-    handleOnDragStart,
-    draggedTask,
-    handleColumnDrop,
-    handleSetTasks,
-    handleSetSelectedDueDate,
-    users,
-}: KanbanProps) {
+export default function Kanban({ tasks }: KanbanProps) {
+    const draggedTask = useRef<unknown>(null);
+
     return (
         <div className='kanban'>
             {taskBoardColumns.map((column) => (
@@ -31,12 +17,7 @@ export default function Kanban({
                     key={column}
                     column={column}
                     tasks={tasks}
-                    handleOnDragStart={handleOnDragStart}
                     draggedTask={draggedTask}
-                    handleColumnDrop={handleColumnDrop}
-                    handleSetTasks={handleSetTasks}
-                    handleSetSelectedDueDate={handleSetSelectedDueDate}
-                    users={users}
                 />
             ))}
         </div>

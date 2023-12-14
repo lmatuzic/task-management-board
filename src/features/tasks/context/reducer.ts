@@ -1,5 +1,5 @@
 import { Task, TeamMember } from '../types';
-import { TaskActionTypes } from './constants';
+import { TaskActionTypes } from './actions';
 import { TaskActions } from './types';
 
 export type TaskState = {
@@ -27,6 +27,18 @@ export default function taskReducer(state: TaskState, action: TaskActions) {
             return {
                 ...state,
                 teamMembers: action.payload,
+            };
+
+        case TaskActionTypes.SET_IS_FETCHING_TEAM_MEMBERS:
+            return {
+                ...state,
+                isFetchingTeamMembers: action.payload,
+            };
+
+        case TaskActionTypes.SET_DUE_DATE:
+            return {
+                ...state,
+                dueDate: action.payload,
             };
 
         default:

@@ -1,27 +1,28 @@
-import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
+import PrimaryButton from '../../../../components/button/PrimaryButton';
 import TextField from '../../../../components/input/TextField';
 import SelectField from '../../../../components/select/SelectField';
 import { priorityLevels } from '../../constants';
 import { PropertyType, Task, TeamMember } from '../../types';
+import { formatDate } from '../../utils/formatDate';
 
-type EditableTaskContentProps = {
-    users: TeamMember[];
+type EditableTaskProps = {
+    teamMembers: TeamMember[];
     editedTask: Task;
     handleTaskPropertyChange: <T extends PropertyType>(property: T, value: Task[T]) => void;
-    handleSetSelectedDueDate: (date: Date) => void;
+    handleSetDueDate: (date: string) => void;
     closeTaskEdit: () => void;
 };
 
-export default function EditableTaskContent({
-    users,
+export default function EditableTask({
+    teamMembers,
     editedTask,
     handleTaskPropertyChange,
-    handleSetSelectedDueDate,
+    handleSetDueDate,
     closeTaskEdit,
-}: EditableTaskContentProps) {
+}: EditableTaskProps) {
     return (
-        <div className='kanban-task-edit'>
-            <div className='kanban-task-edit__item'>
+        <div className='editable-task'>
+            <div className='editable-task__item'>
                 <TextField
                     label='Name'
                     inputId='task-name-edit'
@@ -30,26 +31,26 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <label htmlFor='due-date-edit'>Due date</label>
 
                 <input
                     type='date'
                     id='due-date-edit'
-                    value={editedTask.dueDate.toISOString().split('T')[0]}
+                    value={editedTask.dueDate}
                     onChange={(e) => {
-                        handleSetSelectedDueDate(new Date(e.target.value));
+                        handleSetDueDate(formatDate(new Date(e.target.value)));
 
                         if (e.target.value === '') {
-                            handleSetSelectedDueDate(new Date());
+                            handleSetDueDate(formatDate(new Date()));
                         }
 
-                        handleTaskPropertyChange('dueDate', new Date(e.target.value));
+                        handleTaskPropertyChange('dueDate', formatDate(new Date(e.target.value)));
                     }}
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <SelectField
                     label='Priority Level'
                     value={editedTask.priorityLevel}
@@ -62,26 +63,26 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <SelectField
                     label='Assigned Team Member'
                     value={editedTask.assignedTeamMember ? editedTask.assignedTeamMember.id : ''}
                     selectId='assigned-team-member-select-edit'
                     options={[
                         { value: '', label: 'Select Team Member' },
-                        ...users.map((teamMember) => ({
+                        ...teamMembers.map((teamMember) => ({
                             value: teamMember.id,
                             label: teamMember.name,
                         })),
                     ]}
                     onChange={(newValue) => {
-                        const selectedTeamMember = users.find((member) => member.id === Number(newValue)) ?? null;
+                        const selectedTeamMember = teamMembers.find((member) => member.id === Number(newValue)) ?? null;
                         handleTaskPropertyChange('assignedTeamMember', selectedTeamMember);
                     }}
                 />
             </div>
 
-            <PrimaryButton onClick={closeTaskEdit}>Finish</PrimaryButton>
+            <PrimaryButton onClick={closeTaskEdit}>Finish editing</PrimaryButton>
         </div>
     );
 }

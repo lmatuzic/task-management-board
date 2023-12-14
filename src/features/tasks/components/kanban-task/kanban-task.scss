@@ -11,33 +11,37 @@
 
     h3 {
         font-size: 1rem;
+        font-weight: 500;
     }
 
-    &__dialog {
-        h1 {
-            margin-bottom: 2rem;
+    &__content {
+        h2 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
         }
-    }
 
-    &-edit {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
+        .info {
+            margin-bottom: 0.75rem;
 
-        &__item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-
-            label {
-                font-size: 0.75rem;
+            strong {
+                margin-right: 0.25rem;
+                font-weight: 600;
             }
         }
+    }
 
-        button {
-            width: fit-content;
-            margin-left: auto;
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+
+        @include sm {
+            flex-direction: column;
+
+            button {
+                width: 100%;
+            }
         }
     }
 }

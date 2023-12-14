@@ -1,5 +1,5 @@
 import { Task, TeamMember } from '../types';
-import { TaskActionTypes } from './constants';
+import { TaskActionTypes } from './actions';
 
 export type SetTasks = {
     type: TaskActionTypes.SET_TASKS;
@@ -21,4 +21,20 @@ export type SetIsFetchingTeamMembers = {
     payload: boolean;
 };
 
-export type TaskActions = SetTasks | SetTaskName | SetTeamMembers | SetIsFetchingTeamMembers;
+export type SetDueDate = {
+    type: TaskActionTypes.SET_DUE_DATE;
+    payload: string;
+};
+
+export type SetTaskInputError = {
+    type: TaskActionTypes.SET_TASK_INPUT_ERROR;
+    payload: string;
+};
+
+export type TaskActions =
+    | SetTasks
+    | SetTaskName
+    | SetTeamMembers
+    | SetIsFetchingTeamMembers
+    | SetDueDate
+    | SetTaskInputError;

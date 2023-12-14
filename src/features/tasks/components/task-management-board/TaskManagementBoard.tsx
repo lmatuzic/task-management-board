@@ -1,29 +1,23 @@
-import { useEffect, useRef } from 'react';
-import PrimaryButton from '../../../../components/button/primary-button/PrimaryButton';
-import { taskBoardColumns } from '../../constants';
+import { useEffect } from 'react';
+import LoadingSpinner from '../../../../components/loading/loading-spinner/LoadingSpinner';
 import useTaskContext from '../../context/useTaskContext';
-import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
+import useTeamMembers from '../../hooks/useTeamMembers';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
-import useTeamMembers from '../../hooks/useTeamMembers';
+import TaskInput from '../task-input/TaskInput';
 
 export default function TaskManagementBoard() {
-    const draggedTask = useRef<unknown>(null);
-
     const {
         tasks,
         taskName,
         teamMembers,
         isFetchingTeamMembers,
         handleSetTaskName,
-        handleSetTasks,
         handleSetTeamMembers,
         handleSetIsFetchingTeamMembers,
         handleAddTask,
     } = useTaskContext();
-
-    const { handleOnDragStart, handleColumnDrop } = useDragAndDrop({ draggedTask });
 
     const {
         filteredTasks,
@@ -41,54 +35,35 @@ export default function TaskManagementBoard() {
         fetchTeamMembers();
     }, [fetchTeamMembers]);
 
-    if (isFetchingTeamMembers) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div className='task-management-board'>
-            <header>
-                <div className='add-new-task'>
-                    <input
-                        type='text'
-                        name='todo-name'
-                        value={taskName}
-                        placeholder='Type task name'
-                        required
-                        onChange={(e) => handleSetTaskName(e.target.value)}
-                    />
+            {isFetchingTeamMembers ? (
+                <LoadingSpinner />
+            ) : (
+                <>
+                    <header>
+                        <TaskInput
+                            tasks={tasks}
+                            taskName={taskName}
+                            handleSetTaskName={handleSetTaskName}
+                            handleAddTask={handleAddTask}
+                        />
 
-                    <PrimaryButton
-                        onClick={handleAddTask}
-                        type='submit'
-                    >
-                        Add Task
-                    </PrimaryButton>
-                </div>
+                        {teamMembers && (
+                            <TaskFilter
+                                handleSetSelectedTeamMember={handleSetSelectedTeamMember}
+                                selectedTeamMember={selectedTeamMember}
+                                handleSetSelectedDueDate={handleSetSelectedDueDate}
+                                selectedDueDate={selectedDueDate}
+                                handleSetSelectedPriority={handleSetSelectedPriority}
+                                selectedPriority={selectedPriority}
+                            />
+                        )}
+                    </header>
 
-                {teamMembers && (
-                    <TaskFilter
-                        teamMembers={teamMembers}
-                        handleSetSelectedTeamMember={handleSetSelectedTeamMember}
-                        selectedTeamMember={selectedTeamMember}
-                        handleSetSelectedDueDate={handleSetSelectedDueDate}
-                        selectedDueDate={selectedDueDate}
-                        handleSetSelectedPriority={handleSetSelectedPriority}
-                        selectedPriority={selectedPriority}
-                    />
-                )}
-            </header>
-
-            <Kanban
-                taskBoardColumns={taskBoardColumns}
-                tasks={filteredTasks}
-                handleOnDragStart={handleOnDragStart}
-                draggedTask={draggedTask}
-                handleColumnDrop={(e) => handleColumnDrop(tasks, e)}
-                handleSetTasks={handleSetTasks}
-                handleSetSelectedDueDate={handleSetSelectedDueDate}
-                users={teamMembers}
-            />
+                    <Kanban tasks={filteredTasks} />
+                </>
+            )}
         </div>
     );
 }
