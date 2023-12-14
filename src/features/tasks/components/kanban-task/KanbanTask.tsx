@@ -1,10 +1,7 @@
-import PrimaryButton from '../../../../components/button/PrimaryButton';
-import WarningButton from '../../../../components/button/WarningButton';
-import Dialog from '../../../../components/dialog/Dialog';
 import useTaskContext from '../../context/useTaskContext';
 import useEditTask from '../../hooks/useEditTask';
 import { Task } from '../../types';
-import EditableTaskContent from '../editable-task-content/EditableTaskContent';
+import EditTaskDialog from '../edit-task-dialog/EditTaskDialog';
 
 type KanbanTaskProps = {
     task: Task;
@@ -41,47 +38,19 @@ export default function KanbanTask({ task, handleOnDragStart }: KanbanTaskProps)
                 <h3>{task.name}</h3>
             </div>
 
-            <Dialog
-                isOpen={isDialogOpen}
+            <EditTaskDialog
+                isDialogOpen={isDialogOpen}
+                isEditing={isEditing}
+                task={task}
+                editedTask={editedTask}
+                teamMembers={teamMembers}
+                handleDeleteTask={handleDeleteTask}
+                startTaskEdit={startTaskEdit}
                 closeDialog={closeDialog}
-                className='kanban-task__dialog'
-            >
-                <h1>Edit task</h1>
-
-                {isEditing ? (
-                    <EditableTaskContent
-                        teamMembers={teamMembers}
-                        editedTask={editedTask}
-                        handleTaskPropertyChange={handleTaskPropertyChange}
-                        handleSetDueDate={handleSetDueDate}
-                        closeTaskEdit={closeTaskEdit}
-                    />
-                ) : (
-                    <div className='kanban-task__content'>
-                        <h2>{task.name}</h2>
-
-                        <div className='info'>
-                            <strong>Due date:</strong> {task.dueDate}
-                        </div>
-
-                        <div className='info'>
-                            <strong>Priority Level:</strong> {task.priorityLevel}
-                        </div>
-
-                        {task.assignedTeamMember ? (
-                            <div>Assigned Team Member: {task.assignedTeamMember.name}</div>
-                        ) : null}
-
-                        <div className='kanban-task__actions'>
-                            <PrimaryButton onClick={startTaskEdit}>Edit</PrimaryButton>
-
-                            <WarningButton onClick={() => handleDeleteTask(editedTask, closeDialog)}>
-                                Delete
-                            </WarningButton>
-                        </div>
-                    </div>
-                )}
-            </Dialog>
+                handleTaskPropertyChange={handleTaskPropertyChange}
+                handleSetDueDate={handleSetDueDate}
+                closeTaskEdit={closeTaskEdit}
+            />
         </>
     );
 }

@@ -25,4 +25,17 @@
             background-color: darken($color: rgb(162, 29, 51), $amount: 10);
         }
     }
+
+    &--outline {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        background-color: white;
+        color: black;
+        border: 1px solid gray;
+
+        &:hover {
+            background-color: darken($color: white, $amount: 5);
+        }
+    }
 }

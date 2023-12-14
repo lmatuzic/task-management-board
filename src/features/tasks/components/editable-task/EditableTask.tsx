@@ -5,7 +5,7 @@ import { priorityLevels } from '../../constants';
 import { PropertyType, Task, TeamMember } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 
-type EditableTaskContentProps = {
+type EditableTaskProps = {
     teamMembers: TeamMember[];
     editedTask: Task;
     handleTaskPropertyChange: <T extends PropertyType>(property: T, value: Task[T]) => void;
@@ -13,16 +13,16 @@ type EditableTaskContentProps = {
     closeTaskEdit: () => void;
 };
 
-export default function EditableTaskContent({
+export default function EditableTask({
     teamMembers,
     editedTask,
     handleTaskPropertyChange,
     handleSetDueDate,
     closeTaskEdit,
-}: EditableTaskContentProps) {
+}: EditableTaskProps) {
     return (
-        <div className='kanban-task-edit'>
-            <div className='kanban-task-edit__item'>
+        <div className='editable-task'>
+            <div className='editable-task__item'>
                 <TextField
                     label='Name'
                     inputId='task-name-edit'
@@ -31,7 +31,7 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <label htmlFor='due-date-edit'>Due date</label>
 
                 <input
@@ -50,7 +50,7 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <SelectField
                     label='Priority Level'
                     value={editedTask.priorityLevel}
@@ -63,7 +63,7 @@ export default function EditableTaskContent({
                 />
             </div>
 
-            <div className='kanban-task-edit__item'>
+            <div className='editable-task__item'>
                 <SelectField
                     label='Assigned Team Member'
                     value={editedTask.assignedTeamMember ? editedTask.assignedTeamMember.id : ''}

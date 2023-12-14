@@ -29,7 +29,7 @@ h1 {
 
 input {
     border-radius: 0;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     padding: 0.5rem;
 
     @include md {
@@ -40,7 +40,7 @@ input {
 select {
     border-radius: 0;
     border: none;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     padding: 0.5rem;
     background-color: white;
 
