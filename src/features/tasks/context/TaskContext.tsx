@@ -2,6 +2,7 @@ import { createContext, useEffect, useMemo, useReducer } from 'react';
 import { ContextProps, ContextProviderProps } from '../../../context/types';
 import taskReducer, { TaskState } from './reducer';
 import { TaskActions } from './types';
+import { getInitialStateFromLocalStorage } from './utils/getInitialStateFromLocalStorage';
 
 const initialState: TaskState = {
     tasks: [],
@@ -14,16 +15,6 @@ export const TaskContext = createContext<ContextProps<TaskState, TaskActions>>({
     state: initialState,
     dispatch: () => null,
 });
-
-const getInitialStateFromLocalStorage = () => {
-    try {
-        const localData = localStorage.getItem('tasks');
-        return localData ? JSON.parse(localData) : initialState;
-    } catch (error) {
-        console.error('Error parsing localStorage data:', error);
-        return [];
-    }
-};
 
 export const TaskContextProvider = ({ children }: ContextProviderProps) => {
     const [state, dispatch] = useReducer(taskReducer, initialState, getInitialStateFromLocalStorage);

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import PrimaryButton from '../../../../components/button/PrimaryButton';
-import LoadingSpinner from '../../../../components/loading/LoadingSpinner';
+import LoadingSpinner from '../../../../components/loading/loading-spinner/LoadingSpinner';
 import useTaskContext from '../../context/useTaskContext';
+import useHandleTaskInputError from '../../hooks/useHandleTaskInputError';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
 import useTeamMembers from '../../hooks/useTeamMembers';
 import Kanban from '../kanban/Kanban';
@@ -32,6 +33,7 @@ export default function TaskManagementBoard() {
     } = useTaskFilter({ tasks, teamMembers });
 
     const { fetchTeamMembers } = useTeamMembers({ handleSetIsFetchingTeamMembers, handleSetTeamMembers });
+    const { taskInputError, handleSetTaskInputError } = useHandleTaskInputError();
 
     useEffect(() => {
         fetchTeamMembers();
@@ -45,17 +47,27 @@ export default function TaskManagementBoard() {
                 <>
                     <header>
                         <div className='add-new-task'>
-                            <input
-                                type='text'
-                                name='todo-name'
-                                value={taskName}
-                                placeholder='Type task name'
-                                required
-                                onChange={(e) => handleSetTaskName(e.target.value)}
-                            />
+                            <div className='input-wrapper'>
+                                <input
+                                    type='text'
+                                    name='todo-name'
+                                    value={taskName}
+                                    placeholder='Type task name'
+                                    required
+                                    onChange={(e) => {
+                                        handleSetTaskInputError(e.target.value, tasks);
+                                        handleSetTaskName(e.target.value);
+                                    }}
+                                />
+
+                                {taskInputError.length > 1 && <span className='input-error'>{taskInputError}</span>}
+                            </div>
 
                             <PrimaryButton
-                                onClick={handleAddTask}
+                                onClick={() => {
+                                    if (taskInputError) return;
+                                    handleAddTask();
+                                }}
                                 type='submit'
                             >
                                 Add Task

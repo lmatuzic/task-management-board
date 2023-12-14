@@ -26,4 +26,15 @@ export type SetDueDate = {
     payload: string;
 };
 
-export type TaskActions = SetTasks | SetTaskName | SetTeamMembers | SetIsFetchingTeamMembers | SetDueDate;
+export type SetTaskInputError = {
+    type: TaskActionTypes.SET_TASK_INPUT_ERROR;
+    payload: string;
+};
+
+export type TaskActions =
+    | SetTasks
+    | SetTaskName
+    | SetTeamMembers
+    | SetIsFetchingTeamMembers
+    | SetDueDate
+    | SetTaskInputError;

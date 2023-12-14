@@ -28,6 +28,21 @@
             width: 100%;
         }
 
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .input-error {
+            position: absolute;
+            bottom: -1.25rem;
+            left: 0;
+            text-align: left;
+            font-size: 0.75rem;
+            color: rgb(191, 16, 16);
+        }
+
         button {
             align-self: stretch;
 

@@ -7,6 +7,7 @@ export enum TaskActionTypes {
     SET_TEAM_MEMBERS = 'SET_TEAM_MEMBERS',
     SET_IS_FETCHING_TEAM_MEMBERS = 'SET_IS_FETCHING_TEAM_MEMBERS',
     SET_DUE_DATE = 'SET_DUE_DATE',
+    SET_TASK_INPUT_ERROR = 'SET_TASK_INPUT_ERROR',
 }
 
 export const setTasks = (payload: Task[]): SetTasks => ({
