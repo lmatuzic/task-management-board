@@ -31,8 +31,8 @@ export default function TaskInput({ tasks, taskName, handleSetTaskName, handleAd
             </div>
 
             <PrimaryButton
-                type='submit'
                 onClick={() => {
+                    if (taskName.length < 1) handleSetTaskInputError(taskName);
                     if (taskInputError) return;
                     handleAddTask();
                 }}
