@@ -33,7 +33,6 @@ export default function KanbanColumn({ column, tasks, draggedTask }: KanbanColum
                         key={task.id}
                         task={task}
                         handleOnDragStart={handleOnDragStart}
-                        draggedTask={draggedTask}
                     />
                 ))}
         </div>

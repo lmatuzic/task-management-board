@@ -1,4 +1,3 @@
-import { MutableRefObject } from 'react';
 import PrimaryButton from '../../../../components/button/PrimaryButton';
 import WarningButton from '../../../../components/button/WarningButton';
 import Dialog from '../../../../components/dialog/Dialog';
@@ -10,7 +9,6 @@ import EditableTaskContent from '../editable-task-content/EditableTaskContent';
 type KanbanTaskProps = {
     task: Task;
     handleOnDragStart: (task: Task) => void;
-    draggedTask: MutableRefObject<unknown>;
 };
 
 export default function KanbanTask({ task, handleOnDragStart }: KanbanTaskProps) {

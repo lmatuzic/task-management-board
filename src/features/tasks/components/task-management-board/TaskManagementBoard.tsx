@@ -1,16 +1,13 @@
-import { useEffect, useRef } from 'react';
-import PrimaryButton from '../../../../components/button/PrimaryButton';
+import { useEffect } from 'react';
 import LoadingSpinner from '../../../../components/loading/loading-spinner/LoadingSpinner';
 import useTaskContext from '../../context/useTaskContext';
-import useHandleTaskInputError from '../../hooks/useHandleTaskInputError';
 import { useTaskFilter } from '../../hooks/useTaskFilter';
 import useTeamMembers from '../../hooks/useTeamMembers';
 import Kanban from '../kanban/Kanban';
 import TaskFilter from '../task-filter/TaskFilter';
+import TaskInput from '../task-input/TaskInput';
 
 export default function TaskManagementBoard() {
-    const draggedTask = useRef<unknown>(null);
-
     const {
         tasks,
         taskName,
@@ -33,7 +30,6 @@ export default function TaskManagementBoard() {
     } = useTaskFilter({ tasks, teamMembers });
 
     const { fetchTeamMembers } = useTeamMembers({ handleSetIsFetchingTeamMembers, handleSetTeamMembers });
-    const { taskInputError, handleSetTaskInputError } = useHandleTaskInputError();
 
     useEffect(() => {
         fetchTeamMembers();
@@ -46,33 +42,12 @@ export default function TaskManagementBoard() {
             ) : (
                 <>
                     <header>
-                        <div className='add-new-task'>
-                            <div className='input-wrapper'>
-                                <input
-                                    type='text'
-                                    name='todo-name'
-                                    value={taskName}
-                                    placeholder='Type task name'
-                                    required
-                                    onChange={(e) => {
-                                        handleSetTaskInputError(e.target.value, tasks);
-                                        handleSetTaskName(e.target.value);
-                                    }}
-                                />
-
-                                {taskInputError.length > 1 && <span className='input-error'>{taskInputError}</span>}
-                            </div>
-
-                            <PrimaryButton
-                                onClick={() => {
-                                    if (taskInputError) return;
-                                    handleAddTask();
-                                }}
-                                type='submit'
-                            >
-                                Add Task
-                            </PrimaryButton>
-                        </div>
+                        <TaskInput
+                            tasks={tasks}
+                            taskName={taskName}
+                            handleSetTaskName={handleSetTaskName}
+                            handleAddTask={handleAddTask}
+                        />
 
                         {teamMembers && (
                             <TaskFilter
@@ -86,10 +61,7 @@ export default function TaskManagementBoard() {
                         )}
                     </header>
 
-                    <Kanban
-                        tasks={filteredTasks}
-                        draggedTask={draggedTask}
-                    />
+                    <Kanban tasks={filteredTasks} />
                 </>
             )}
         </div>

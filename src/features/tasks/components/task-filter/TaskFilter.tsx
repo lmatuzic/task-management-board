@@ -72,7 +72,7 @@ export default function TaskFilter({
                 <input
                     type='date'
                     id='due-date'
-                    value={selectedDueDate} // convert date to string in 'yyyy-mm-dd' format
+                    value={selectedDueDate}
                     onChange={(e) => {
                         handleSetSelectedDueDate(formatDate(new Date(e.target.value)));
 
